@@ -1,4 +1,5 @@
 import streamlit as st
+import os
 import joblib
 import pandas as pd
 import numpy as np
@@ -224,8 +225,10 @@ def load_models(forecast_horizons=[1, 3, 6, 12]):
     scalers = {}
     for horizon in forecast_horizons:
         try:
-            model_path = f'model/air_quality_model_{horizon}h.joblib'
-            scaler_path = f'model/data_scaler_{horizon}h.joblib'
+            BASE_DIR = os.path.dirname(__file__)
+            MODEL_DIR = os.path.join(BASE_DIR, "model")
+            model_path = os.path.join(MODEL_DIR, f"air_quality_model_{horizon}h.joblib")
+            scaler_path = os.path.join(MODEL_DIR, f"data_scaler_{horizon}h.joblib")
             models[horizon] = joblib.load(model_path)
             scalers[horizon] = joblib.load(scaler_path)
         except FileNotFoundError:
