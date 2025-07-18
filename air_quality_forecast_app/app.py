@@ -5,7 +5,7 @@ import numpy as np
 import plotly.express as px
 
 # Inject custom CSS for styling
-with open('C:/Users/hp/OneDrive/Documents/python/Cleanair/air_quality_forecast_app/styles/style.css') as f:
+with open('styles/style.css') as f:
     st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
 
 # Import utility functions and UI components
