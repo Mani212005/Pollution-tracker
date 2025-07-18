@@ -2,6 +2,8 @@
 
 CleanAir is a comprehensive web application built with Streamlit that provides real-time air quality forecasting, health alerts, and insightful visualizations. Leveraging machine learning, this tool empowers users to stay informed about air pollution levels and make data-driven decisions for their health and well-being.
 
+![Image_Alt](https://github.com/Mani212005/Pollution-tracker/blob/d864e09f30ceb975ffa0f9380cad29828e642160/pollu1.png)
+
 ## 🚀 Features
 
 - **Real-time Data Integration:** Fetches live air quality and weather data from global monitoring stations.
@@ -85,6 +87,17 @@ This project relies on the following Python libraries:
 - `plotly`
 - `matplotlib`
 - `numpy`
+
+![Image_Alt](https://github.com/Mani212005/Pollution-tracker/blob/d864e09f30ceb975ffa0f9380cad29828e642160/pollu2.png)
+![Image_Alt](https://github.com/Mani212005/Pollution-tracker/blob/d864e09f30ceb975ffa0f9380cad29828e642160/pollu3.png)
+![Image_Alt](https://github.com/Mani212005/Pollution-tracker/blob/d864e09f30ceb975ffa0f9380cad29828e642160/pollu4.png)
+![Image_Alt](https://github.com/Mani212005/Pollution-tracker/blob/d864e09f30ceb975ffa0f9380cad29828e642160/pollu5.png)
+![Image_Alt](https://github.com/Mani212005/Pollution-tracker/blob/d864e09f30ceb975ffa0f9380cad29828e642160/pollu6.png)
+![Image_Alt](https://github.com/Mani212005/Pollution-tracker/blob/d864e09f30ceb975ffa0f9380cad29828e642160/pollu7.png)
+![Image_Alt](https://github.com/Mani212005/Pollution-tracker/blob/d864e09f30ceb975ffa0f9380cad29828e642160/pollu8.png)
+![Image_Alt](https://github.com/Mani212005/Pollution-tracker/blob/d864e09f30ceb975ffa0f9380cad29828e642160/pollu9.png)
+![Image_Alt](https://github.com/Mani212005/Pollution-tracker/blob/d864e09f30ceb975ffa0f9380cad29828e642160/pollu10.png)
+ 
 
 ## 🤝 Contributing
 
