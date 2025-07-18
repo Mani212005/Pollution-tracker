@@ -1,0 +1,16 @@
+
+# Environment variables
+air_quality_forecast_app/.env
+
+# Python virtual environment
+venv/
+
+# Compiled Python files
+__pycache__/
+*.pyc
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Streamlit cache
+.streamlit/cache/
