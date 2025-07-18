@@ -1,119 +1,146 @@
-Air Pollution Forecasting and Alert System
+🌬️ Air Pollution Forecasting & Alert System
+A comprehensive Streamlit web application that provides real-time air quality forecasts, visualizations, and health alerts for major cities worldwide.
 
-A Streamlit web application that provides real-time air quality and weather data, forecasts PM2.5 levels for multiple future horizons, and offers health alerts and data visualizations.
+📜 About The Project
+This project aims to provide an accessible and user-friendly platform for monitoring and forecasting air pollution. By leveraging real-time data and machine learning, the application predicts future PM2.5 levels, translates them into an understandable Air Quality Index (AQI), and offers crucial health advice.
 
-🌟 Features
+It serves as a valuable tool for individuals, researchers, and public health officials to make informed decisions based on air quality conditions.
 
-Real-time Data: Fetches current PM2.5 and weather data from the World Air Quality Index (WAQI).
+The backend is powered by ML models trained to forecast PM2.5 concentrations at 1, 3, 6, and 12-hour horizons, ensuring users receive timely and relevant information.
 
-Multi-Horizon Forecasting: Utilizes machine learning models to predict PM2.5 concentrations at 1, 3, 6, and 12-hour intervals.
+✨ Key Features
+🔴 Real-time Data
+Fetches live air quality and meteorological data from the WAQI (World Air Quality Index) platform.
 
-AQI Calculation: Converts PM2.5 values into a user-friendly Air Quality Index (AQI) with corresponding health categories.
+🧠 Multi-Horizon Forecasting
+Predicts PM2.5 levels for 1, 3, 6, and 12 hours into the future using pre-trained models.
 
-Health Alerts: Displays actionable health recommendations based on the forecasted 1-hour PM2.5 level.
+📊 Dynamic AQI Calculation
+Converts PM2.5 values into standard AQI categories: Good, Moderate, Unhealthy, etc.
 
-Interactive Map: Visualizes the current air quality on a map centered on the selected city.
+🩺 Health Alerts
+Provides actionable health recommendations based on forecasted AQI levels.
 
-Data Visualization:
+🗺️ Interactive Visualizations
 
-AQI Trends: Plots historical and forecasted PM2.5 values.
+Live Map: Displays current AQI of the selected city.
 
-Feature Importance: Shows which factors are most influential in the model's predictions.
+Trend Analysis: Compares historical and predicted air quality over time.
 
-Temporal Heatmap: Visualizes patterns of air quality over time.
+Feature Importance: Shows key drivers like temperature and humidity.
 
-Anomaly Detection: Highlights unusual spikes or dips in air quality.
+Temporal Heatmap & Anomaly Detection: Detects recurring patterns and anomalies.
 
-Carbon Footprint Estimator: Includes a tool for users to estimate their carbon footprint.
+♻️ Carbon Footprint Calculator
+Integrated tool to estimate personal environmental impact.
 
-City Selection: Allows users to choose from a predefined list of major cities.
+🧑‍💻 Robust & User-Friendly
+Graceful fallback to dummy data ensures smooth experience even if live APIs fail.
 
-Dummy Data Fallback: Ensures the application remains functional for demonstration purposes even if the live data API fails.
+📸 Screenshots
+(Add actual screenshots or GIFs here)
 
-🛠️ Installation
+Example:
 
-Clone the repository:
+Main Dashboard: Displays the city’s current air quality and forecast chart
 
+Carbon Footprint Tab: Allows users to estimate their CO₂ impact
+
+Feature Importance Plot: Visualizes which variables impact the forecast most
+
+🛠️ Tech Stack
+Layer	Tools/Technologies
+Backend & ML	Python, NumPy, Pandas, Scikit-learn
+Frontend	Streamlit
+Data Source	WAQI API
+Model Files	.joblib models for each forecast horizon
+
+🚀 Getting Started
+✅ Prerequisites
+Python 3.8 or higher
+
+WAQI API key (get from aqicn.org)
+
+🔧 Installation
+Clone the repository
+
+bash
+Copy
+Edit
 git clone https://github.com/your-username/air-quality-forecast-app.git
 cd air-quality-forecast-app
+Create a virtual environment
 
+bash
+Copy
+Edit
+# macOS/Linux
+python3 -m venv venv
+source venv/bin/activate
 
-Create and activate a virtual environment (recommended):
-
+# Windows
 python -m venv venv
-source venv/bin/activate  # On Windows, use `venv\Scripts\activate`
+.\venv\Scripts\activate
+Install dependencies
 
-
-Install the required dependencies:
-
+bash
+Copy
+Edit
 pip install -r requirements.txt
+Configure API Key
 
+Insert your WAQI API key in utils/data_fetching.py
+Or use an .env file to load your key securely.
 
-(Note: You will need to create a requirements.txt file. Based on the provided script, the contents should be at least streamlit, pandas, numpy, and scikit-learn (joblib is part of scikit-learn). You may need to add other libraries used in your utility and component modules.)
+Place trained models
 
-Place the pre-trained models and scalers in the model/ directory. The application expects the following file structure:
+Place the .joblib model files inside the /model directory.
 
-air_quality_forecast_app/
-├── model/
-│   ├── air_quality_model_1h.joblib
-│   ├── data_scaler_1h.joblib
-│   ├── air_quality_model_3h.joblib
-│   ├── data_scaler_3h.joblib
-│   ├── air_quality_model_6h.joblib
-│   ├── data_scaler_6h.joblib
-│   ├── air_quality_model_12h.joblib
-│   └── data_scaler_12h.joblib
-└── ... (rest of the app files)
-
-
-🚀 Usage
-
-Set up your API keys: The application requires API keys for fetching real-time data. Make sure to have them configured in your environment or within the utils/data_fetching.py file.
-
-Run the Streamlit application:
-
+▶️ Run the App
+bash
+Copy
+Edit
 streamlit run app.py
-
-
-Open your web browser and navigate to the local URL provided by Streamlit (usually http://localhost:8501).
-
-Select a city from the sidebar to view the air quality forecast and visualizations.
+Visit http://localhost:8501 in your browser.
 
 📁 Project Structure
-
+bash
+Copy
+Edit
 .
-├── app.py                   # Main Streamlit application script
-├── components/              # Directory for UI components
-│   ├── __init__.py
+├── app.py                        # Streamlit app main script
+├── components/                  # UI components
 │   ├── carbon_footprint_estimator.py
-│   ├── health_alerts.py
-│   ├── map_view.py
-│   ├── feature_importance.py
-│   ├── temporal_heatmap.py
-│   ├── time_series_plot.py
-│   └── anomaly_detection.py
-├── model/                   # Directory to store trained models and scalers
+│   └── ...
+├── model/                       # Trained model files
 │   ├── air_quality_model_1h.joblib
 │   └── ...
-├── utils/                   # Directory for utility functions
-│   ├── __init__.py
+├── utils/                       # Utility scripts
 │   ├── data_fetching.py
 │   └── preprocess.py
-└── README.md                # This file
+├── requirements.txt             # Project dependencies
+└── README.md                    # You are here!
+🤝 Contributing
+Contributions are welcome and appreciated! ❤️
 
+Fork the project
 
-🤖 Models
+Create your branch: git checkout -b feature/AmazingFeature
 
-The forecasting functionality is powered by machine learning models trained for different prediction horizons (1, 3, 6, and 12 hours). Each model is accompanied by a corresponding data scaler used for preprocessing the input features.
+Commit changes: git commit -m 'Add some AmazingFeature'
 
-The models are loaded into memory upon the first run and cached for subsequent uses to ensure fast performance.
+Push to your branch: git push origin feature/AmazingFeature
+
+Open a Pull Request
 
 📝 License
-
-This project is licensed under the MIT License. See the LICENSE file for more details.
+Distributed under the MIT License. See LICENSE file for more info.
 
 🙏 Acknowledgements
+Streamlit
 
-Streamlit: For providing an easy-to-use framework for building interactive web applications for data science.
+Scikit-learn
 
-World Air Quality Index (WAQI): For providing the real-time air quality data.
+WAQI (World Air Quality Index)
+
+Shields.io for badge design inspiration
