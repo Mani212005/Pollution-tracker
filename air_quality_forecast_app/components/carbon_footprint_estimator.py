@@ -1,6 +1,6 @@
 import streamlit as st
 
-def display_carbon_footprint_estimator():
+def display_carbon_footprint_estimator(key_suffix=""):
     """
     Displays a simplified carbon footprint estimator based on user inputs.
     """
@@ -8,11 +8,11 @@ def display_carbon_footprint_estimator():
     st.info("Estimate your approximate carbon emissions based on a few daily habits.")
 
     st.subheader("Transportation")
-    commute_distance = st.slider("Daily Commute Distance (km)", 0, 100, 10)
-    commute_mode = st.selectbox("Primary Commute Mode", ["Car", "Motorcycle", "Public Transport", "Bicycle/Walk"])
+    commute_distance = st.slider("Daily Commute Distance (km)", 0, 100, 10, key=f"commute_distance_{key_suffix}")
+    commute_mode = st.selectbox("Primary Commute Mode", ["Car", "Motorcycle", "Public Transport", "Bicycle/Walk"], key=f"commute_mode_{key_suffix}")
 
     st.subheader("Electricity Consumption")
-    monthly_electricity_bill = st.slider("Average Monthly Electricity Bill (INR)", 0, 5000, 1000)
+    monthly_electricity_bill = st.slider("Average Monthly Electricity Bill (INR)", 0, 5000, 1000, key=f"monthly_electricity_bill_{key_suffix}")
 
     # --- Simplified Calculation Logic (Arbitrary values for demonstration) ---
     # These values are illustrative and not based on scientific data.

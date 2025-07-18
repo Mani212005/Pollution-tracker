@@ -50,7 +50,7 @@ def get_aqi_category_and_color(pm25_value):
     else:
         return "Hazardous", "maroon"
 
-def display_map(forecasted_pm25=None, center_lat=28.7041, center_lon=77.1025):
+def display_map(forecasted_pm25=None, center_lat=28.7041, center_lon=77.1025, key_suffix=""):
     """
     Displays a map with simulated air quality sensor data, centered on the given coordinates.
     """
@@ -83,7 +83,7 @@ def display_map(forecasted_pm25=None, center_lat=28.7041, center_lon=77.1025):
     fig.update_layout(mapbox_style="open-street-map", mapbox_center={'lat': center_lat, 'lon': center_lon})
     fig.update_layout(margin={"r":0,"t":50,"l":0,"b":0})
 
-    st.plotly_chart(fig, use_container_width=True)
+    st.plotly_chart(fig, use_container_width=True, key=f"map_view_{key_suffix}")
 
     if forecasted_pm25 is not None:
         st.write(f"*Note: Your forecasted PM2.5 for the next hour is: **{forecasted_pm25:.2f} µg/m³***")

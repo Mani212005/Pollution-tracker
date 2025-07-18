@@ -4,7 +4,7 @@ import plotly.graph_objects as go
 import pandas as pd
 import numpy as np
 
-def display_aqi_trends(raw_data_df, forecasted_pm25_values=None):
+def display_aqi_trends(raw_data_df, forecasted_pm25_values=None, key_suffix=""):
     """
     Displays time series plots for PM2.5, showing historical trends and forecasted values.
     Allows selection of historical periods (1 day, 7 days, 30 days).
@@ -15,7 +15,8 @@ def display_aqi_trends(raw_data_df, forecasted_pm25_values=None):
     period = st.radio(
         "Select Historical Period:",
         ("Last 24 Hours", "Last 7 Days", "Last 30 Days"),
-        horizontal=True
+        horizontal=True,
+        key=f"aqi_trend_period_{key_suffix}"
     )
 
     num_history_points = 0

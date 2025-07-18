@@ -4,7 +4,7 @@ import plotly.express as px
 import pandas as pd
 import numpy as np
 
-def display_temporal_heatmap(historical_df):
+def display_temporal_heatmap(historical_df, key_suffix=""):
     """
     Displays a temporal heatmap of PM2.5 by hour of day and day of week.
     """
@@ -42,7 +42,7 @@ def display_temporal_heatmap(historical_df):
                     title="Average PM2.5 by Hour and Day of Week")
 
     fig.update_xaxes(side="top")
-    st.plotly_chart(fig, use_container_width=True)
+    st.plotly_chart(fig, use_container_width=True, key=f"temporal_heatmap_{key_suffix}")
 
 if __name__ == '__main__':
     st.set_page_config(layout="wide")

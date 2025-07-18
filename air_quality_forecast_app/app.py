@@ -3,6 +3,7 @@ import streamlit as st
 import joblib
 import pandas as pd
 import numpy as np
+import plotly.express as px
 
 # Import utility functions and UI components
 from utils.data_fetching import get_realtime_data
@@ -85,78 +86,125 @@ def calculate_aqi(pm25_value):
     elif pm25_value <= 250.4: return "Very Unhealthy"
     else: return "Hazardous"
 
+def create_raw_data_chart(raw_data):
+    """Creates an interactive Plotly bar chart for the raw data."""
+    if raw_data.empty:
+        return None
+
+    # Melt the dataframe to have a long format for Plotly
+    raw_data_melted = raw_data.melt(id_vars=['timestamp'], var_name='Pollutant', value_name='Value')
+
+    fig = px.bar(
+        raw_data_melted,
+        x='Pollutant',
+        y='Value',
+        color='Pollutant',
+        title='Latest Raw Air Quality and Weather Data',
+        labels={'Value': 'Measurement Value', 'Pollutant': 'Pollutant/Metric'},
+        template='plotly_white'
+    )
+    fig.update_layout(
+        showlegend=False,
+        xaxis_title="",
+        yaxis_title="Value",
+        font=dict(family="sans-serif", size=12, color="#7f7f7f"),
+        title_font_size=20,
+    )
+    return fig
+
+def display_city_data(selected_city, key_suffix=""):
+    """Fetches and displays the data for a single city."""
+    st.markdown(f"### Real-time PM2.5 and AQI Forecast for {selected_city}")
+
+    # Fetch real-time data
+    st.subheader("1. Fetching Real-time Data")
+    with st.spinner(f"Fetching latest air quality and weather data for {selected_city}..."):
+        raw_data, error_message = get_realtime_data(city=selected_city.lower()) # WAQI uses lowercase city names
+
+    if raw_data is not None and not raw_data.empty:
+        st.success("Data fetched successfully!")
+        st.write("Latest Raw Data:")
+        st.dataframe(raw_data)
+
+        # Add a bar chart for the raw data
+        st.write("Raw Data Visualization:")
+        st.plotly_chart(create_raw_data_chart(raw_data), use_container_width=True, key=f"raw_data_chart_{selected_city}_{key_suffix}")
+
+        # Run multi-hour prediction
+        st.subheader("2. Forecasting Air Quality")
+        forecasted_pm25_values = run_multi_hour_prediction(raw_data, models, scalers, forecast_horizons)
+
+        if all(value is not None for value in forecasted_pm25_values.values()):
+            st.write("#### Forecasted PM2.5 Values:")
+            cols = st.columns(len(forecast_horizons))
+            for i, horizon in enumerate(forecast_horizons):
+                with cols[i]:
+                    st.metric(label=f"PM2.5 (+{horizon}h)", value=f"{forecasted_pm25_values[horizon]:.2f} µg/m³")
+                    st.write(f"AQI: {calculate_aqi(forecasted_pm25_values[horizon])}")
+
+            # Display health alerts for the 1-hour forecast
+            st.subheader("3. Health Alerts (1-hour forecast)")
+            display_health_alert(forecasted_pm25_values[1], key_suffix=key_suffix)
+
+            # Display visualizations
+            st.subheader("4. Visualizations")
+            display_map(forecasted_pm25_values[1], city_coordinates[selected_city]["lat"], city_coordinates[selected_city]["lon"], key_suffix=key_suffix) # Pass 1-hour forecast and city coords to map
+            display_aqi_trends(raw_data, forecasted_pm25_values, key_suffix=key_suffix) # Pass all forecasts to trend plot
+            display_feature_importance(models[1], scalers[1], raw_data, key_suffix=key_suffix) # Pass 1-hour model, scaler, and raw data
+            display_temporal_heatmap(raw_data, key_suffix=key_suffix) # Pass raw_data for now, will use dummy historical data within the component
+            display_anomaly_detection(forecasted_pm25_values[1], raw_data, key_suffix=key_suffix) # Pass 1-hour forecast and raw_data for historical context
+
+            st.subheader("5. Carbon Footprint Estimator")
+            display_carbon_footprint_estimator(key_suffix=key_suffix)
+
+        else:
+            st.error("Could not generate all forecasts. Please check data fetching and preprocessing.")
+    else:
+        st.error("Failed to fetch real-time data. Please check your API keys and internet connection.")
+        st.info("Using dummy data for demonstration purposes if real data cannot be fetched.")
+        # Fallback to dummy data for demonstration if API fails
+        dummy_data = pd.DataFrame({
+            'pm25': [150],
+            'temperature': [25],
+            'humidity': [60],
+            'wind_speed': [5],
+            'pressure': [1010],
+            'timestamp': [pd.to_datetime('now')]
+        })
+        st.write("Using Dummy Data for Forecast:")
+        st.dataframe(dummy_data)
+        forecasted_pm25_values_dummy = run_multi_hour_prediction(dummy_data, models, scalers, forecast_horizons)
+        if all(value is not None for value in forecasted_pm25_values_dummy.values()):
+            st.write("#### Forecasted PM2.5 Values (Dummy Data):")
+            cols = st.columns(len(forecast_horizons))
+            for i, horizon in enumerate(forecast_horizons):
+                with cols[i]:
+                    st.metric(label=f"PM2.5 (+{horizon}h)", value=f"{forecasted_pm25_values_dummy[horizon]:.2f} µg/m³")
+                    st.write(f"AQI: {calculate_aqi(forecasted_pm25_values_dummy[horizon])}")
+            display_health_alert(forecasted_pm25_values_dummy[1])
+
 # --- Streamlit UI ---
 st.set_page_config(layout="wide", page_title="Air Pollution Forecast")
 
 st.title("🌬️ Air Pollution Forecasting and Alert System")
 
-# City Selection
-selected_city = st.sidebar.selectbox(
-    "Select a City:",
-    list(city_coordinates.keys())
-)
+# Mode Selection
+mode = st.sidebar.radio("Select Mode:", ("Single City", "Compare Cities"))
 
-st.markdown(f"### Real-time PM2.5 and AQI Forecast for {selected_city}")
-
-# Fetch real-time data
-st.subheader("1. Fetching Real-time Data")
-with st.spinner(f"Fetching latest air quality and weather data for {selected_city}..."):
-    raw_data, error_message = get_realtime_data(city=selected_city.lower()) # WAQI uses lowercase city names
-
-if raw_data is not None and not raw_data.empty:
-    st.success("Data fetched successfully!")
-    st.write("Latest Raw Data:")
-    st.dataframe(raw_data)
-
-    # Run multi-hour prediction
-    st.subheader("2. Forecasting Air Quality")
-    forecasted_pm25_values = run_multi_hour_prediction(raw_data, models, scalers, forecast_horizons)
-
-    if all(value is not None for value in forecasted_pm25_values.values()):
-        st.write("#### Forecasted PM2.5 Values:")
-        cols = st.columns(len(forecast_horizons))
-        for i, horizon in enumerate(forecast_horizons):
-            with cols[i]:
-                st.metric(label=f"PM2.5 (+{horizon}h)", value=f"{forecasted_pm25_values[horizon]:.2f} µg/m³")
-                st.write(f"AQI: {calculate_aqi(forecasted_pm25_values[horizon])}")
-
-        # Display health alerts for the 1-hour forecast
-        st.subheader("3. Health Alerts (1-hour forecast)")
-        display_health_alert(forecasted_pm25_values[1])
-
-        # Display visualizations
-        st.subheader("4. Visualizations")
-        display_map(forecasted_pm25_values[1], city_coordinates[selected_city]["lat"], city_coordinates[selected_city]["lon"]) # Pass 1-hour forecast and city coords to map
-        display_aqi_trends(raw_data, forecasted_pm25_values) # Pass all forecasts to trend plot
-        display_feature_importance(models[1], scalers[1], raw_data) # Pass 1-hour model, scaler, and raw data
-        display_temporal_heatmap(raw_data) # Pass raw_data for now, will use dummy historical data within the component
-        display_anomaly_detection(forecasted_pm25_values[1], raw_data) # Pass 1-hour forecast and raw_data for historical context
-
-        st.subheader("5. Carbon Footprint Estimator")
-        display_carbon_footprint_estimator()
-
-    else:
-        st.error("Could not generate all forecasts. Please check data fetching and preprocessing.")
+if mode == "Single City":
+    # City Selection
+    selected_city = st.sidebar.selectbox(
+        "Select a City:",
+        list(city_coordinates.keys())
+    )
+    display_city_data(selected_city, key_suffix="single")
 else:
-    st.error("Failed to fetch real-time data. Please check your API keys and internet connection.")
-    st.info("Using dummy data for demonstration purposes if real data cannot be fetched.")
-    # Fallback to dummy data for demonstration if API fails
-    dummy_data = pd.DataFrame({
-        'pm25': [150],
-        'temperature': [25],
-        'humidity': [60],
-        'wind_speed': [5],
-        'pressure': [1010],
-        'timestamp': [pd.to_datetime('now')]
-    })
-    st.write("Using Dummy Data for Forecast:")
-    st.dataframe(dummy_data)
-    forecasted_pm25_values_dummy = run_multi_hour_prediction(dummy_data, models, scalers, forecast_horizons)
-    if all(value is not None for value in forecasted_pm25_values_dummy.values()):
-        st.write("#### Forecasted PM2.5 Values (Dummy Data):")
-        cols = st.columns(len(forecast_horizons))
-        for i, horizon in enumerate(forecast_horizons):
-            with cols[i]:
-                st.metric(label=f"PM2.5 (+{horizon}h)", value=f"{forecasted_pm25_values_dummy[horizon]:.2f} µg/m³")
-                st.write(f"AQI: {calculate_aqi(forecasted_pm25_values_dummy[horizon])}")
-        display_health_alert(forecasted_pm25_values_dummy[1])
+    st.header("City Comparison")
+    col1, col2 = st.columns(2)
+    with col1:
+        city1 = st.selectbox("Select City 1", list(city_coordinates.keys()), key='city1')
+        display_city_data(city1, key_suffix="city1")
+    with col2:
+        city2 = st.selectbox("Select City 2", list(city_coordinates.keys()), key='city2')
+        display_city_data(city2, key_suffix="city2")
+

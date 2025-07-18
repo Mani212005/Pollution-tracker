@@ -1,6 +1,6 @@
 import streamlit as st
 
-def display_health_alert(predicted_pm25):
+def display_health_alert(predicted_pm25, key_suffix=""):
     """
     Displays health alerts based on forecasted PM2.5 values, aligned with US EPA AQI categories.
     """

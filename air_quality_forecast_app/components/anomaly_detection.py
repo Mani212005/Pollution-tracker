@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 
-def display_anomaly_detection(current_pm25, historical_pm25_data=None):
+def display_anomaly_detection(current_pm25, historical_pm25_data=None, key_suffix=""):
     """
     Performs a basic anomaly detection on the current PM2.5 value
     compared to historical data (if available) or a predefined threshold.

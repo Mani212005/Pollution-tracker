@@ -5,7 +5,7 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 
-def display_feature_importance(model, scaler, processed_data_df):
+def display_feature_importance(model, scaler, processed_data_df, key_suffix=""):
     """
     Calculates and displays feature importance using SHAP values for the 1-hour forecast model.
     """
