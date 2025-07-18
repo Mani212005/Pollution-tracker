@@ -224,8 +224,8 @@ def load_models(forecast_horizons=[1, 3, 6, 12]):
     scalers = {}
     for horizon in forecast_horizons:
         try:
-            model_path = f'C:/Users/hp/OneDrive/Documents/python/Cleanair/air_quality_forecast_app/model/air_quality_model_{horizon}h.joblib'
-            scaler_path = f'C:/Users/hp/OneDrive/Documents/python/Cleanair/air_quality_forecast_app/model/data_scaler_{horizon}h.joblib'
+            model_path = f'model/air_quality_model_{horizon}h.joblib'
+            scaler_path = f'model/data_scaler_{horizon}h.joblib'
             models[horizon] = joblib.load(model_path)
             scalers[horizon] = joblib.load(scaler_path)
         except FileNotFoundError:
