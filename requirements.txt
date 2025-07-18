@@ -1,8 +1,8 @@
-streamlit
-joblib
-pandas
-numpy
-plotly
-requests
-python-dotenv
-xgboost
+streamlit==1.36.0
+joblib==1.4.2
+pandas==2.2.2
+numpy==1.26.4
+plotly==5.22.0
+requests==2.32.3
+python-dotenv==1.0.1
+xgboost==2.0.3
