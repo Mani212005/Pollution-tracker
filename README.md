@@ -82,7 +82,7 @@ This project relies on the following Python libraries:
 - `pandas`
 - `scikit-learn`
 - `joblib`
-- `xgboost`
+- `scikit-learn` (for RandomForestRegressor)
 - `lightgbm`
 - `plotly`
 - `matplotlib`
