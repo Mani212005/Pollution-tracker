@@ -100,7 +100,7 @@ This project relies on the following Python libraries:
 - `matplotlib`
 - `numpy`
 
-![Image_Alt](https://github.com/Mani212005/Pollution-tracker/blob/d864e09f30ceb975ffa0f9380cad29828e642160/pollu2.png)
+![Image_Alt](https://github.com/Mani212005/Pollution-tracker/blob/d864e09f30ceb975ffa0f9380cad29828e642160/pollu11.png)
 ![Image_Alt](https://github.com/Mani212005/Pollution-tracker/blob/d864e09f30ceb975ffa0f9380cad29828e642160/pollu3.png)
 ![Image_Alt](https://github.com/Mani212005/Pollution-tracker/blob/d864e09f30ceb975ffa0f9380cad29828e642160/pollu4.png)
 ![Image_Alt](https://github.com/Mani212005/Pollution-tracker/blob/d864e09f30ceb975ffa0f9380cad29828e642160/pollu5.png)
