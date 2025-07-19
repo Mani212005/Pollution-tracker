@@ -6,17 +6,29 @@ CleanAir is a comprehensive web application built with Streamlit that provides r
 
 ## 🚀 Features
 
-- **Real-time Data Integration:** Fetches live air quality and weather data from global monitoring stations.
-- **Multi-Horizon Forecasting:** Predicts PM2.5 concentrations at 1, 3, 6, and 12-hour intervals using advanced machine learning models.
-- **Dynamic AQI Calculation:** Converts PM2.5 forecasts into easy-to-understand Air Quality Index (AQI) levels.
-- **Automated Health Alerts:** Generates timely health advisories and recommendations based on forecasted pollution levels.
-- **Interactive Map View:** Visualizes air quality data on an interactive map, centered on user-selected cities.
-- **Insightful Visualizations:**
-  - **Time-Series Analysis:** Tracks historical and forecasted AQI trends.
-  - **Feature Importance:** Reveals the key environmental factors influencing air quality.
-  - **Temporal Heatmaps:** Identifies daily and hourly patterns in pollution.
-  - **Anomaly Detection:** Highlights unusual spikes or dips in air quality data.
-- **Carbon Footprint Estimator:** Provides a tool to estimate and understand personal carbon emissions.
+ 🔄 **Real-time Data Integration**  
+  Fetches live air quality and weather data from global monitoring sources.
+
+- ⏱️ **Multi-Horizon Forecasting**  
+  Predicts PM2.5 levels for 1, 3, 6, and 12 hours using ML models.
+
+- 🧮 **Dynamic AQI Calculation**  
+  Converts PM2.5 into easy-to-understand Air Quality Index (AQI) levels.
+
+- ⚕️ **Automated Health Alerts**  
+  Sends health recommendations based on forecasted AQI.
+
+- 🗺️ **Interactive Map View**  
+  Visualizes air quality for user-selected cities on an interactive map.
+
+- 📊 **Insightful Visualizations**  
+  - Time-series analysis of historical and forecasted AQI  
+  - Feature importance using ML model interpretability  
+  - Temporal heatmaps for hourly/daily trends  
+  - Anomaly detection for sudden pollution spikes
+
+- 🌱 **Carbon Footprint Estimator**  
+  Estimate your individual emissions and get actionable insights.
 
 ## 🛠️ Installation
 
