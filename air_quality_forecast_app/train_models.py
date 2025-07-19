@@ -8,7 +8,7 @@ import os
 # Configuration
 MODEL_DIR = 'C:/Users/hp/OneDrive/Documents/python/Cleanair/air_quality_forecast_app/model'
 forecast_horizons = [1, 3, 6, 12]
-FEATURES = ['pm25', 'temperature', 'humidity', 'wind_speed', 'pressure']
+FEATURES = ['temperature', 'humidity', 'wind_speed', 'pressure']
 
 # Ensure the model directory exists
 os.makedirs(MODEL_DIR, exist_ok=True)
